@@ -1,15 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3.0 + Vite" />
+  <div class="app-container">
+    <sidebar /> 
+    <todo-container />
+  </div>
 </template>
 
 <script lang="ts">
-import HelloWorld from "./components/HelloWorld.vue"
+import Sidebar from "./components/Sidebar.vue"
+import TodoContainer from "./components/TodoContainer.vue"
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    Sidebar,
+    TodoContainer,
   },
 }
 </script>
+
+<style scoped>
+.app-container {
+  height: 100%;
+  display: flex;
+}
+</style>
