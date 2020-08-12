@@ -3,15 +3,16 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue"
+export default defineComponent( {
   name: "Sidebar",
-}
+} )
 </script>
 
 <style scoped>
-  .sidebar-container {
-    border: 1px red solid;
-    min-width: 250px;
-    padding: 10px;
-  }
+.sidebar-container {
+  border: 1px red solid;
+  min-width: 250px;
+  padding: 10px;
+}
 </style>

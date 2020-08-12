@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue"
 import TodoItem from "./TodoItem.vue"
 
 export interface Todo {
@@ -13,7 +14,7 @@ export interface Todo {
   text: string
 }
 
-export default {
+export default defineComponent( {
   name: "TodoContainer",
   components: {
     TodoItem,
@@ -44,7 +45,7 @@ export default {
       ] as Todo[],
     }
   },
-}
+} )
 </script>
 
 <style scoped>
@@ -53,6 +54,6 @@ export default {
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 10px;
+  padding: 50px 30px;
 }
 </style>
