@@ -7,42 +7,19 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 import TodoItem from "./TodoItem.vue"
-
-export interface Todo {
-  completed: boolean
-  id: string
-  text: string
-}
+import { useTodo } from "../store/todos"
 
 export default defineComponent( {
   name: "TodoContainer",
   components: {
     TodoItem,
   },
-  data() {
+  setup() {
+    const { todos, fetchTodos } = useTodo()
+    fetchTodos()
+
     return {
-      todos: [
-        {
-          id: "1",
-          text: "hello",
-          completed: false,
-        },
-        {
-          id: "2",
-          text: "hello2",
-          completed: false,
-        },
-        {
-          id: "3",
-          text: "hellor3",
-          completed: false,
-        },
-        {
-          id: "4",
-          text: "hello4",
-          completed: false,
-        },
-      ] as Todo[],
+      todos,
     }
   },
 } )

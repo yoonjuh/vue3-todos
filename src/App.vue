@@ -2,25 +2,27 @@
   <div class="app-container">
     <sidebar /> 
     <div class="page-container"> 
-      <search-bar />
+      <search />
       <todo-container />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import SearchBar from "./components/SearchBar.vue"
+import { defineComponent } from "vue"
+
+import Search from "./components/Search.vue"
 import Sidebar from "./components/Sidebar.vue"
 import TodoContainer from "./components/TodoContainer.vue"
 
-export default {
+export default defineComponent( {
   name: "App",
   components: {
-    SearchBar,
+    Search,
     Sidebar,
     TodoContainer,
   },
-}
+} )
 </script>
 
 <style scoped>

@@ -4,7 +4,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
-import { Todo } from "./TodoContainer.vue"
+import { Todo } from "../store/todos"
+
 export default defineComponent( {
   name: "TodoItem",
   props: {
