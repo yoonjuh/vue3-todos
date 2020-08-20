@@ -1,28 +1,27 @@
 <template>
   <div class="todo-container">
-    <todo-item v-for="todo in todos" :key="todo.id" :todo="todo"/>
+    <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo"/>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
 import TodoItem from "./TodoItem.vue"
-import { useTodo } from "../store/todos"
+import useTodos from "../store/todos"
 
-export default defineComponent( {
+export default {
   name: "TodoContainer",
   components: {
     TodoItem,
   },
-  setup() {
-    const { todos, fetchTodos } = useTodo()
-    fetchTodos()
+  async setup() {
+    const { todos, fetchTodos } = useTodos()
+    await fetchTodos()
 
     return {
       todos,
     }
   },
-} )
+}
 </script>
 
 <style scoped>

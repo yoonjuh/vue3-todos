@@ -1,67 +1,102 @@
-import { computed, ref, reactive } from "vue"
+import { computed, ref, reactive, ComputedRef, toRefs, Ref } from "vue"
 
-export interface Todo {
-  completed: boolean
-  id: string
-  text: string
+export namespace TodoStore {
+  export interface UseTodoHook {
+    loading: ComputedRef<boolean>
+    todos: Ref<Todo[]>
+
+    addTodo: ( keyword: string ) => void
+    deleteTodo: ( todoId: string ) => void
+    fetchTodos: () => Promise<void>
+    searchTodoByKeyword: ( keyword: string ) => void
+  }
+
+  export interface Todo {
+    completed: boolean
+    id: number
+    text: string
+  }
+
+  export interface TodoState {
+    todos: Todo[]
+  }
 }
 
-export const useTodo =  () => {
-  const state = reactive<{ todos: Todo[] }>( {
-    todos: [],
-  } )
-  const loading = ref( false )
+const state = reactive<TodoStore.TodoState>( {
+  todos: [],
+} )
+const loading = ref( false )
 
-  const searchByKeyword = ( keyword: string ) => {
-    console.log( "searchByKeyword" )
-  }
+const DEFAULT_TODOS = [
+  {
+    id: 1,
+    text: "hello1",
+    completed: false,
+  },
+  {
+    id: 2,
+    text: "hello2",
+    completed: false,
+  },
+  {
+    id: 3,
+    text: "hello3",
+    completed: false,
+  },
+  {
+    id: 4,
+    text: "hello4",
+    completed: false,
+  },
+]
 
+export default function useTodos(): TodoStore.UseTodoHook {
   const fetchTodos = async () => {
-    loading.value = true
     state.todos = await new Promise( ( resolve ) => {
+      let todos: TodoStore.Todo[]
+
+      const localItems = localStorage.getItem( "todos" )
+      if( localItems ) {
+        todos = JSON.parse( localItems )
+      } else {
+        todos = DEFAULT_TODOS
+        localStorage.setItem( "todos", JSON.stringify( todos ) )
+      }
+
       setTimeout( () => {
-        return resolve( [
-          {
-            id: "1",
-            text: "hello",
-            completed: false,
-          },
-          {
-            id: "2",
-            text: "hello2",
-            completed: false,
-          },
-          {
-            id: "3",
-            text: "hellor3",
-            completed: false,
-          },
-          {
-            id: "4",
-            text: "hello4",
-            completed: false,
-          },
-        ] )
+        resolve( todos )
       }, 500 )
     } )
-
-    loading.value = false
-  }
-
-  const addTodo = ( todo: Todo ) => {
-    state.todos.push( todo )
-  }
-
-  const deleteTodo = ( todoId: string ) => {
-    state.todos = state.todos.filter( ( todo ) => todo.id !== todoId )
   }
 
   return {
-    addTodo,
-    deleteTodo,
+    addTodo( keyword: string ) {
+      state.todos = [ 
+        ...state.todos,
+        {
+          completed: false,
+          id: state.todos.length,
+          text: keyword,
+        }
+      ]
+      localStorage.setItem( "todos", JSON.stringify( [ ...state.todos ] ) )
+    },
+    deleteTodo( todoId: string ) {
+      state.todos = state.todos.filter( ( todo ) => todo.id.toString() !== todoId )
+    },
     fetchTodos,
     loading: computed( () => loading.value ),
-    searchByKeyword,
-    todos: computed( () => state.todos ),
+    async searchTodoByKeyword( keyword ) {
+      console.log( "keyword?", keyword )
+      if( keyword ) {
+        console.log( "data???", keyword )
+        state.todos =  state.todos.filter( ( todo ) => todo.text.indexOf( keyword ) > -1 )
+      } else {
+        await fetchTodos() 
+      }
+      
+      console.log( "todos?", state.todos )
+    },
+    ...toRefs( state ),
   }
 }

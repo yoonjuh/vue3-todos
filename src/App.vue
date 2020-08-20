@@ -1,9 +1,15 @@
 <template>
   <div class="app-container">
-    <sidebar /> 
     <div class="page-container"> 
       <search />
-      <todo-container />
+      <Suspense>
+        <template #default>
+          <todo-container />
+        </template>
+        <template #fallback>
+          <div>loading...</div>
+        </template>
+      </Suspense>
     </div>
   </div>
 </template>
@@ -12,14 +18,12 @@
 import { defineComponent } from "vue"
 
 import Search from "./components/Search.vue"
-import Sidebar from "./components/Sidebar.vue"
 import TodoContainer from "./components/TodoContainer.vue"
 
 export default defineComponent( {
   name: "App",
   components: {
     Search,
-    Sidebar,
     TodoContainer,
   },
 } )

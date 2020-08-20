@@ -3,23 +3,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue"
-import { Todo } from "../store/todos"
+import { PropType } from "vue"
+import { TodoStore } from "../store/todos"
 
-export default defineComponent( {
+export default {
   name: "TodoItem",
   props: {
     todo: {
-      type: Object as PropType<Todo>,
+      type: Object as PropType<TodoStore.Todo>,
       required: true,
     },
   }, 
-  setup( props: { todo: Todo, } ) {
+  setup( props ) {
     return {
       ...props,
     } 
   },
-} )
+}
 </script>
 
 <style scoped>
