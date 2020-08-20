@@ -9,6 +9,8 @@ export namespace TodoStore {
     deleteTodo: ( todoId: string ) => void
     fetchTodos: () => Promise<void>
     searchTodoByKeyword: ( keyword: string ) => void
+    syncTodos: () => void
+    updateTodo: ( todo: TodoStore.Todo ) => void
   }
 
   export interface Todo {
@@ -69,6 +71,13 @@ export default function useTodos(): TodoStore.UseTodoHook {
     } )
   }
 
+  const syncTodos = () => {
+    const local_items = localStorage.getItem( "todos" ) 
+    if( local_items ) {
+      state.todos = JSON.parse( local_items )
+    }
+  }
+
   return {
     addTodo( keyword: string ) {
       state.todos = [ 
@@ -87,15 +96,24 @@ export default function useTodos(): TodoStore.UseTodoHook {
     fetchTodos,
     loading: computed( () => loading.value ),
     async searchTodoByKeyword( keyword ) {
-      console.log( "keyword?", keyword )
       if( keyword ) {
-        console.log( "data???", keyword )
         state.todos =  state.todos.filter( ( todo ) => todo.text.indexOf( keyword ) > -1 )
       } else {
         await fetchTodos() 
       }
-      
-      console.log( "todos?", state.todos )
+    },
+    syncTodos,
+    updateTodo( todo ) {
+      const rest_todos = state.todos.filter( ( { id } ) => id !== todo.id )
+      state.todos = [
+        ...rest_todos,
+        {
+          ...todo,
+          completed: ! todo.completed
+        },
+      ].sort( ( current, next ) => current.id - next.id )
+
+      localStorage.setItem( "todos", JSON.stringify( state.todos ) )
     },
     ...toRefs( state ),
   }

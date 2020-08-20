@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="page-container"> 
-      <search />
+      <AddInput />
       <Suspense>
         <template #default>
           <todo-container />
@@ -21,13 +21,13 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import Search from "./components/Search.vue"
+import AddInput from "./components/AddInput.vue"
 import TodoContainer from "./components/TodoContainer.vue"
 
 export default defineComponent( {
   name: "App",
   components: {
-    Search,
+    AddInput,
     TodoContainer,
   },
 } )
@@ -35,28 +35,27 @@ export default defineComponent( {
 
 <style scoped>
 .app-container {
-  height: 100%;
   display: flex;
+  height: 100%;
 }
 
 .page-container {
   display: flex;
   flex: 1;
   flex-direction: column;
-
   padding: 30px;  
 }
 
 .loader-wrapper {
-  min-height: 300px;
-  display: flex;
-  justify-content: center;
   align-items: center;
   background-color: #35495e;
+  display: flex;
+  justify-content: center;
+  min-height: 300px;
 }
 
 .loader {
-  font-size: 32px;
   color: #1CBC9B;
+  font-size: 32px;
 }
 </style>

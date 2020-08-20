@@ -26,7 +26,6 @@ export default {
 
 <style scoped>
 .todo-container {
-  /* border: 1px lightgreen solid; */
   color: #42b883;
   display: flex;
   flex: 1;
