@@ -26,10 +26,10 @@ export default {
 
 <style scoped>
 .todo-container {
-  border: 1px blue solid;
+  /* border: 1px lightgreen solid; */
+  color: #42b883;
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 50px 30px;
 }
 </style>

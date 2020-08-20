@@ -7,7 +7,11 @@
           <todo-container />
         </template>
         <template #fallback>
-          <div>loading...</div>
+          <div class="loader-wrapper">
+            <div class="loader">
+              loading...
+            </div>
+          </div>
         </template>
       </Suspense>
     </div>
@@ -39,5 +43,20 @@ export default defineComponent( {
   display: flex;
   flex: 1;
   flex-direction: column;
+
+  padding: 30px;  
+}
+
+.loader-wrapper {
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #35495e;
+}
+
+.loader {
+  font-size: 32px;
+  color: #1CBC9B;
 }
 </style>
